@@ -10,6 +10,8 @@
 
 @class Mixpanel;
 
+#define MIXPANEL_URL @"https://api.mixpanel.com"
+
 typedef NS_ENUM(NSUInteger, MPNetworkEndpoint) {
     MPNetworkEndpointTrack,
     MPNetworkEndpointEngage,

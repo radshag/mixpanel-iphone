@@ -36,16 +36,21 @@ static const NSUInteger kBatchSize = 50;
     return sharedSession;
 }
 
-- (instancetype)initWithServerURL:(NSURL *)serverURL mixpanel:(Mixpanel *)mixpanel
+- (instancetype)initWithServerURL:(NSURL *)serverURL mixpanelURL:(NSURL *)mixpanelURL mixpanel:(Mixpanel *)mixpanel
 {
     self = [super init];
     if (self) {
         self.serverURL = serverURL;
+        self.mixpanelURL = mixpanelURL;
         self.shouldManageNetworkActivityIndicator = YES;
         self.useIPAddressForGeoLocation = YES;
         self.mixpanel = mixpanel;
     }
     return self;
+}
+
+- (instancetype)initWithServerURL:(NSURL *)serverURL mixpanel:(Mixpanel *)mixpanel {
+    return [self initWithServerURL:serverURL mixpanelURL:[NSURL URLWithString:MIXPANEL_URL] mixpanel:mixpanel];
 }
 
 #pragma mark - Flush
@@ -239,8 +244,13 @@ static const NSUInteger kBatchSize = 50;
                              byHTTPMethod:(NSString *)method
                            withQueryItems:(NSArray <NSURLQueryItem *> *)queryItems
                                   andBody:(NSString *)body {
+    
+    NSURL *serverURL = self.serverURL;
+    if (self.mixpanelURL && endpoint == [MPNetwork pathForEndpoint:MPNetworkEndpointDecide]) {
+        serverURL = self.mixpanelURL;
+    }
     // Build URL from path and query items
-    NSURL *urlWithEndpoint = [self.serverURL URLByAppendingPathComponent:endpoint];
+    NSURL *urlWithEndpoint = [serverURL URLByAppendingPathComponent:endpoint];
     NSURLComponents *components = [NSURLComponents componentsWithURL:urlWithEndpoint
                                              resolvingAgainstBaseURL:YES];
     if (queryItems) {

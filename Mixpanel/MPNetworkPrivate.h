@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) Mixpanel *mixpanel;
 @property (nonatomic, strong) NSURL *serverURL;
+@property (nonatomic, strong) NSURL *mixpanelURL;
 
 @property (nonatomic) NSTimeInterval requestsDisabledUntilTime;
 @property (nonatomic) NSUInteger consecutiveFailures;

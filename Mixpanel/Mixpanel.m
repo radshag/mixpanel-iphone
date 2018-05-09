@@ -136,7 +136,7 @@ static NSString *defaultProjectToken;
         self.shouldManageNetworkActivityIndicator = YES;
         self.flushOnBackground = YES;
         
-        self.serverURL = @"https://api.mixpanel.com";
+        self.serverURL = MIXPANEL_URL;
         self.switchboardURL = @"wss://switchboard.mixpanel.com";
         
         self.showNotificationOnActive = YES;
